@@ -1,36 +1,27 @@
 package org.example;
 
+import javax.sound.sampled.*;
 import java.io.File;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
+import java.io.IOException;
 
 public class PlayMusic {
+    private Clip clip;
 
-    public void playMusic(String musicLocation) {
-
+    public void playMusic(String filepath) {
         try {
-            File musicPath = new File(musicLocation);
-
-            if (musicPath.exists()){
-                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioInput);
-                FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
-                clip.start();
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            } else {
-                System.out.println("Can't Find File");
-            }
-        } catch (Exception e) {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filepath).getAbsoluteFile());
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
     }
 
-
-
-
+    public void stopMusic() {
+        if (clip != null) {
+            clip.stop();
+        }
+    }
 }
+

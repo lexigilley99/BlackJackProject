@@ -1,22 +1,15 @@
 package org.example;
 
-import java.util.Scanner;
-
 public class GameRunner {
-
-
     public static void main(String[] args) {
-        // play some music
+        // Play some music
         String filepath = "CasinoJazz.wav";
         PlayMusic music = new PlayMusic();
         music.playMusic(filepath);
 
-
-        Scanner sc = new Scanner(System.in);
-
+        // Initializes the game
         Game game = new Game();
         game.play();
-
-
     }
 }
+
